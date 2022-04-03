@@ -1,0 +1,11 @@
+# Eclipse Stuff
+.classpath
+.project
+.settings/
+
+# Java
+target/
+bin/
+
+# macOS Stuff
+.DS_Store
