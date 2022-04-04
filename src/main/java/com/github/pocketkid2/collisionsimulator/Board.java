@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,12 +13,8 @@ public class Board extends JPanel {
 
 	private Timer timer;
 
-	private List<Ball> balls;
-
 	public Board() {
 		setBackground(Color.WHITE);
-		balls = new ArrayList<Ball>();
-		balls.add(new Ball(640, 360, 1.0D, 20.0D, Color.BLACK));
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new ScheduleTask(), 100, 5);
 	}
@@ -37,7 +31,7 @@ public class Board extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 
-		for (Ball b : balls) {
+		for (Ball b : PhysicsEngine.getBalls()) {
 			b.draw(g2d);
 		}
 	}

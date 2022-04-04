@@ -50,11 +50,6 @@ public class Ball {
 		return Math.PI * r * r * d;
 	}
 
-	public void move() {
-		x += v_x;
-		y += v_y;
-	}
-
 	public boolean collidesWithBall(Ball b) {
 		double dist = Math.sqrt(Math.pow(x - b.x, 2) + Math.pow(y - b.y, 2));
 		return dist <= r + b.r;
