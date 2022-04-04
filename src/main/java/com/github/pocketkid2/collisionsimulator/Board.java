@@ -17,6 +17,10 @@ public class Board extends JPanel {
 		setBackground(Color.WHITE);
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new ScheduleTask(), 100, 5);
+		MouseEventHandler meh = new MouseEventHandler();
+		addMouseListener(meh);
+		addMouseMotionListener(meh);
+		addMouseWheelListener(meh);
 	}
 
 	@Override
