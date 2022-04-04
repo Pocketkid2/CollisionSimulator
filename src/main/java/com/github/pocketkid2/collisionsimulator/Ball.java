@@ -6,6 +6,15 @@ import java.awt.geom.Ellipse2D;
 
 public class Ball {
 
+	public enum PhysicsState {
+		// The ball is being rendered on the screen but has not been placed yet
+		UNPLACED,
+		// The ball is being controlled completely by the physics engine
+		FREE,
+		// The ball is being controlled by the mouse
+		MOUSE_CONTROL;
+	}
+
 	// Position
 	private double x, y;
 	// Velocity
@@ -18,6 +27,8 @@ public class Ball {
 
 	// Color
 	private Color c;
+	// Physics State
+	private PhysicsState s;
 
 	public Ball(double x0, double y0, double density, double radius, Color color) {
 		x = x0;
@@ -25,6 +36,7 @@ public class Ball {
 		d = density;
 		r = radius;
 		c = color;
+		s = PhysicsState.UNPLACED;
 	}
 
 	public void draw(Graphics2D g) {
