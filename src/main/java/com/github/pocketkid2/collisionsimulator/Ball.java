@@ -6,9 +6,9 @@ import java.awt.geom.Ellipse2D;
 
 public class Ball {
 
-	private static final double MIN_RADIUS = 1.0D;
-	private static final double MAX_RADIUS = 360.0D;
-	private static final double DEFAULT_RADIUS = 10.0D;
+	public static final double MIN_RADIUS = 5.0D;
+	public static final double MAX_RADIUS = 120.0D;
+	private static final double DEFAULT_RADIUS = 30.0D;
 
 	private static final double DEFAULT_DENSITY = 1.0D;
 	private static final Color DEFAULT_COLOR = getColorForRadius(DEFAULT_RADIUS);
@@ -32,8 +32,6 @@ public class Ball {
 	// Radius
 	private double r;
 
-	// Color
-	private Color c;
 	// Physics State
 	private PhysicsState s;
 
@@ -46,13 +44,12 @@ public class Ball {
 		y = y0;
 		d = density;
 		r = radius;
-		c = color;
 		s = PhysicsState.UNPLACED;
 	}
 
 	public void draw(Graphics2D g) {
 		Ellipse2D e = new Ellipse2D.Double(x - r, y - r, 2 * r, 2 * r);
-		g.setColor(c);
+		g.setColor(Ball.getColorForRadius(r));
 		g.fill(e);
 	}
 
@@ -74,8 +71,16 @@ public class Ball {
 		s = state;
 	}
 
+	public double getRadius() {
+		return r;
+	}
+
+	public void setRadius(double radius) {
+		r = radius;
+	}
+
 	public static final Color getColorForRadius(double r) {
-		float h = (float) (r / 360.0D), s = 0.5F, b = 0.5F;
+		float h = hueFunction(r), s = 1.0F, b = 1.0F;
 		return Color.getHSBColor(h, s, b);
 	}
 
@@ -95,6 +100,21 @@ public class Ball {
 			break;
 
 		}
+	}
+
+	/**
+	 * Returns the hue (between 0 and 1) as a function of r the radius (between the
+	 * min and max)
+	 *
+	 * The reason why we want this is because we don't want the default linear hue
+	 * scale
+	 *
+	 * @param r
+	 * @return
+	 */
+	private static float hueFunction(double r) {
+		float hue = (float) (MAX_RADIUS / 2 + MAX_RADIUS / 2 * Math.cos(r / (MAX_RADIUS / 8 * Math.PI)));
+		return (float) (hue / MAX_RADIUS);
 	}
 
 }

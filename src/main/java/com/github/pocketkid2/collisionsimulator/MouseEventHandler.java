@@ -10,7 +10,7 @@ public class MouseEventHandler implements MouseMotionListener, MouseListener, Mo
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		System.out.println("Mouse wheel moved by " + e.getScrollAmount() + " amount");
+		PhysicsEngine.mouseWheelScrolled(e.getUnitsToScroll());
 	}
 
 	@Override

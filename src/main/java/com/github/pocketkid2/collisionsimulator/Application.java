@@ -3,7 +3,6 @@ package com.github.pocketkid2.collisionsimulator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -14,6 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.border.EmptyBorder;
 
 import com.github.pocketkid2.collisionsimulator.PhysicsEngine.Tool;
 
@@ -87,19 +87,24 @@ public class Application extends JFrame {
 		});
 		toolbar.add(impulseToolButton);
 
-		// toolbar.setSize(toolbar.getWidth(), getHeight() / 10);
 		add(toolbar, BorderLayout.NORTH);
 	}
 
 	private void createStatusBar() {
 		var statusBar = new JPanel();
 		statusBar.setPreferredSize(new Dimension(getWidth(), STATUS_BAR_SIZE));
-		statusBar.setLayout(new GridBagLayout());
+		statusBar.setLayout(new BorderLayout());
 		add(statusBar, BorderLayout.SOUTH);
 
-		var label = new JLabel("");
-		statusBar.add(label);
-		PhysicsEngine.setStatusLabel(label);
+		var toolLabel = new JLabel("");
+		toolLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		statusBar.add(toolLabel, BorderLayout.LINE_START);
+		PhysicsEngine.setToolLabel(toolLabel);
+
+		var ballLabel = new JLabel("");
+		ballLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		statusBar.add(ballLabel, BorderLayout.LINE_END);
+		PhysicsEngine.setBallLabel(ballLabel);
 	}
 
 	private ImageIcon resize(int width, int height, ImageIcon old) {
