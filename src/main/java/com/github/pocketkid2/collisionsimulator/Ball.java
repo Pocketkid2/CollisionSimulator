@@ -63,6 +63,11 @@ public class Ball {
 		return dist <= r + b.r;
 	}
 
+	public boolean collidesWithPoint(int x2, int y2) {
+		double dist = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
+		return dist <= r;
+	}
+
 	public PhysicsState getState() {
 		return s;
 	}

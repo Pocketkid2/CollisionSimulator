@@ -1,5 +1,6 @@
 package com.github.pocketkid2.collisionsimulator;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,9 +46,18 @@ public class PhysicsEngine {
 	}
 
 	public static void setCurrentTool(Tool t) {
+		if (currentTool != t) {
+			processChange(currentTool, t);
+		}
 		System.out.println("Changing to tool " + t.toString());
 		currentTool = t;
 		updateToolLabelText("Current Tool: " + t.getName());
+	}
+
+	private static void processChange(Tool beforeTool, Tool afterTool) {
+		if (beforeTool == Tool.ADD && afterTool != Tool.ADD) {
+			ballOnCursor = null;
+		}
 	}
 
 	public static void updateToolLabelText(String s) {
@@ -137,6 +147,79 @@ public class PhysicsEngine {
 		case INFO:
 			break;
 		case MOVE:
+			break;
+		case NONE:
+			break;
+		default:
+			break;
+
+		}
+	}
+
+	public static void mousePressed(int button, int x, int y) {
+		if (button == MouseEvent.BUTTON1) {
+			switch (currentTool) {
+			case ADD:
+				break;
+			case IMPULSE:
+				break;
+			case INFO:
+				break;
+			case MOVE:
+				ballOnCursor = getBallAtPosition(x, y);
+				ballOnCursor.setState(PhysicsState.MOUSE_CONTROL);
+				break;
+			case NONE:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	public static void mouseReleased(int button) {
+		if (button == MouseEvent.BUTTON1) {
+			switch (currentTool) {
+			case ADD:
+				break;
+			case IMPULSE:
+				break;
+			case INFO:
+				break;
+			case MOVE:
+				if (ballOnCursor != null) {
+					ballOnCursor.setState(PhysicsState.FREE);
+					ballOnCursor = null;
+				}
+				break;
+			case NONE:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	private static Ball getBallAtPosition(int x, int y) {
+		for (Ball b : balls) {
+			if (b.collidesWithPoint(x, y))
+				return b;
+		}
+		return null;
+	}
+
+	public static void mouseDragged(int x, int y) {
+		switch (currentTool) {
+		case ADD:
+			break;
+		case IMPULSE:
+			break;
+		case INFO:
+			break;
+		case MOVE:
+			if (ballOnCursor != null) {
+				ballOnCursor.forceMoveTo(x, y);
+			}
 			break;
 		case NONE:
 			break;
