@@ -30,12 +30,12 @@ public class MouseEventHandler implements MouseMotionListener, MouseListener, Mo
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse entered at " + e.getXOnScreen() + ", " + e.getYOnScreen());
+		PhysicsEngine.mouseEntered(e.getX(), e.getY());
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse exited at " + e.getXOnScreen() + ", " + e.getYOnScreen());
+		PhysicsEngine.mouseExited(e.getX(), e.getY());
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.github.pocketkid2.collisionsimulator;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
@@ -68,6 +69,14 @@ public class Ball {
 		return dist <= r;
 	}
 
+	public boolean collidesWithWall(Dimension d) {
+		return x - r < 0 || y - r < 0 || x + r > d.width || y + y > d.height;
+	}
+
+	public boolean collidesWithWallAtPoint(Dimension d, int x0, int y0) {
+		return x0 - r < 0 || y0 - r < 0 || x0 + r > d.width || y0 + r > d.height;
+	}
+
 	public PhysicsState getState() {
 		return s;
 	}
@@ -120,6 +129,21 @@ public class Ball {
 	private static float hueFunction(double r) {
 		float hue = (float) (MAX_RADIUS / 2 + MAX_RADIUS / 2 * Math.cos(r / (MAX_RADIUS / 8 * Math.PI)));
 		return (float) (hue / MAX_RADIUS);
+	}
+
+	public void moveToClosestPoint(Dimension size, int x0, int y0) {
+		if (x0 - r < 0) {
+			x0 = (int) r;
+		}
+		if (y0 - r < 0) {
+			y0 = (int) r;
+		}
+		if (x0 + r > size.width) {
+			x0 = (int) (size.width - r);
+		}
+		if (y0 + r > size.height) {
+			y0 = (int) (size.height - r);
+		}
 	}
 
 }

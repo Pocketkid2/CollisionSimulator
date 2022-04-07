@@ -21,6 +21,7 @@ public class Board extends JPanel {
 		addMouseListener(meh);
 		addMouseMotionListener(meh);
 		addMouseWheelListener(meh);
+		PhysicsEngine.setBoard(this);
 	}
 
 	@Override

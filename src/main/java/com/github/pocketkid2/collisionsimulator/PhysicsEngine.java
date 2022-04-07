@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import com.github.pocketkid2.collisionsimulator.Ball.PhysicsState;
 
@@ -33,12 +34,18 @@ public class PhysicsEngine {
 	private static JLabel toolLabel = null;
 	private static JLabel ballLabel = null;
 
+	private static JPanel board = null;
+
 	private static Ball ballOnCursor = new Ball(-50, -50);
 
 	private static List<Ball> balls = new ArrayList<Ball>(Collections.singleton(ballOnCursor));
 
 	public static List<Ball> getBalls() {
 		return balls;
+	}
+
+	public static void setBoard(JPanel b) {
+		board = b;
 	}
 
 	public static Tool getCurrentTool() {
@@ -86,7 +93,12 @@ public class PhysicsEngine {
 		switch (currentTool) {
 		case ADD:
 			if (ballOnCursor != null) {
-				ballOnCursor.forceMoveTo(x, y);
+				if (!ballOnCursor.collidesWithWallAtPoint(board.getSize(), x, y)) {
+					ballOnCursor.forceMoveTo(x, y);
+				} else {
+					ballOnCursor.moveToClosestPoint(board.getSize(), x, y);
+				}
+
 			}
 			break;
 		case IMPULSE:
@@ -200,14 +212,6 @@ public class PhysicsEngine {
 		}
 	}
 
-	private static Ball getBallAtPosition(int x, int y) {
-		for (Ball b : balls) {
-			if (b.collidesWithPoint(x, y))
-				return b;
-		}
-		return null;
-	}
-
 	public static void mouseDragged(int x, int y) {
 		switch (currentTool) {
 		case ADD:
@@ -218,7 +222,12 @@ public class PhysicsEngine {
 			break;
 		case MOVE:
 			if (ballOnCursor != null) {
-				ballOnCursor.forceMoveTo(x, y);
+				if (!ballOnCursor.collidesWithWallAtPoint(board.getSize(), x, y)) {
+					ballOnCursor.forceMoveTo(x, y);
+				} else {
+					ballOnCursor.moveToClosestPoint(board.getSize(), x, y);
+				}
+
 			}
 			break;
 		case NONE:
@@ -226,6 +235,54 @@ public class PhysicsEngine {
 		default:
 			break;
 
+		}
+	}
+
+	private static Ball getBallAtPosition(int x, int y) {
+		for (Ball b : balls) {
+			if (b.collidesWithPoint(x, y))
+				return b;
+		}
+		return null;
+	}
+
+	public static void mouseEntered(int x, int y) {
+		switch (currentTool) {
+		case ADD:
+			if (ballOnCursor != null) {
+				ballOnCursor.moveToClosestPoint(board.getSize(), x, y);
+			}
+			break;
+		case IMPULSE:
+			break;
+		case INFO:
+			break;
+		case MOVE:
+			break;
+		case NONE:
+			break;
+		default:
+			break;
+		}
+	}
+
+	public static void mouseExited(int x, int y) {
+		switch (currentTool) {
+		case ADD:
+			if (ballOnCursor != null) {
+				ballOnCursor.moveToClosestPoint(board.getSize(), x, y);
+			}
+			break;
+		case IMPULSE:
+			break;
+		case INFO:
+			break;
+		case MOVE:
+			break;
+		case NONE:
+			break;
+		default:
+			break;
 		}
 	}
 }
